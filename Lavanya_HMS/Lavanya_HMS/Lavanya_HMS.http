@@ -1,0 +1,6 @@
+@Lavanya_HMS_HostAddress = http://localhost:5018
+
+GET {{Lavanya_HMS_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
