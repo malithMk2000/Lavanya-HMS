@@ -35,5 +35,29 @@ namespace Lavanya_HMS.Infra.Repositories
             var sql = "SELECT * FROM users WHERE isactive = true ORDER BY createdat DESC";
             return await connection.QueryAsync<User>(sql);
         }
+
+        public async Task<User?> GetByIdAsync(int id)
+        {
+            using var connection = CreateConnection();
+            var sql = "SELECT * FROM users WHERE id = @Id";
+            return await connection.QueryFirstOrDefaultAsync<User>(sql, new { Id = id });
+        }
+
+        public async Task<bool> UpdateAsync(User user)
+        {
+            using var connection = CreateConnection();
+            var sql = @"UPDATE users SET 
+                        firstname = @FirstName,
+                        lastname = @LastName,
+                        address = @Address,
+                        phoneno = @PhoneNo,
+                        email = @Email,
+                        nic = @NIC,
+                        isactive = @IsActive
+                        WHERE id = @Id";
+
+            var rows = await connection.ExecuteAsync(sql, user);
+            return rows > 0;
+        }
     }
 }

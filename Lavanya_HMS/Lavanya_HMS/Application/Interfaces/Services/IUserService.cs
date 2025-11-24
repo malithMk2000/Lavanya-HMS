@@ -7,5 +7,8 @@ namespace Lavanya_HMS.Application.Interfaces.Services
     {
         Task<int> CreateUserAsync(AddUserDto user);
         Task<IEnumerable<User>> GetAllUsersAsync();
+        Task<bool> UpdateUserAsync(UpdateUserDto user);
+        Task<User?> GetByIdAsync(int id);
+
     }
 }

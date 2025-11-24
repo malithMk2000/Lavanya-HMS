@@ -35,5 +35,27 @@ namespace Lavanya_HMS.Application.Services
         {
             return await _userRepository.GetAllAsync();
         }
+
+        public async Task<User?> GetByIdAsync(int id)
+        {
+            return await _userRepository.GetByIdAsync(id);
+        }
+
+        public async Task<bool> UpdateUserAsync(UpdateUserDto user)
+        {
+            var existingUser = await _userRepository.GetByIdAsync(user.Id);
+            if (existingUser == null)
+                return false;
+
+            existingUser.FirstName = user.FirstName;
+            existingUser.LastName = user.LastName;
+            existingUser.Address = user.Address;
+            existingUser.PhoneNo = user.PhoneNo;
+            existingUser.Email = user.Email;
+            existingUser.NIC = user.NIC;
+            existingUser.IsActive = user.IsActive;
+
+            return await _userRepository.UpdateAsync(existingUser);
+        }
     }
 }

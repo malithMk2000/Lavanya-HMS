@@ -6,5 +6,8 @@ namespace Lavanya_HMS.Application.Interfaces.Repositories
     {
         Task<int> InsertAsync(User user);
         Task<IEnumerable<User>> GetAllAsync();
+        Task<User?> GetByIdAsync(int id);
+        Task<bool> UpdateAsync(User user);
+
     }
 }

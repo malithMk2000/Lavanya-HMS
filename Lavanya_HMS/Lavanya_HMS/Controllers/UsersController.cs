@@ -34,6 +34,22 @@ namespace Lavanya_HMS.Controllers
             return Ok(items);
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserDto dto)
+        {
+            if (dto == null)
+                return BadRequest("User cannot be null");
+
+            dto.Id = id;
+
+            var result = await _userService.UpdateUserAsync(dto);
+            if (!result)
+                return NotFound("User not found");
+
+            return Ok("User updated successfully");
+        }
+
+
 
     }
 }

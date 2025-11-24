@@ -17,13 +17,14 @@ namespace Lavanya_HMS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBooking([FromBody] AddBookingDto booking)
+        public async Task<IActionResult> CreateBooking([FromBody] AddBookingDto dto)
         {
-            if (booking == null)
-                return BadRequest("Booking cannot be null");
+            if (dto == null || dto.UserId <= 0)
+                return BadRequest("Invalid booking data");
 
-            var id = await _bookingService.CreateBookingAsync(booking);
-            return Ok(new { Id = id });
+            var bookingId = await _bookingService.CreateBookingWithItemsAsync(dto);
+
+            return Ok(new { BookingId = bookingId, Message = "Booking saved successfully" });
         }
 
         [HttpGet("user/{userId}")]
@@ -31,6 +32,17 @@ namespace Lavanya_HMS.Controllers
         {
             var bookings = await _bookingService.GetBookingsByUserIdAsync(userId);
             return Ok(bookings);
+        }
+
+        [HttpGet("{bookingId}")]
+        public async Task<IActionResult> GetBookingDetails(int bookingId)
+        {
+            var booking = await _bookingService.GetBookingDetailsAsync(bookingId);
+
+            if (booking == null)
+                return NotFound("Booking not found");
+
+            return Ok(booking);
         }
 
 
